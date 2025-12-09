@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cat Town Collective</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="assets/tabby.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Cat Town Collective</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="contribute.html">Contribute</a>
+        <a href="#" id="filter-available">Available</a>
+        <a href="#" id="filter-adopted">Adopted</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="hero">
+      <p class="lead">A community-powered dashboard of adoptable cats — add an entry or send a PR.</p>
+    </section>
+
+    <section id="controls">
+      <button data-filter="all" class="btn">All</button>
+      <button data-filter="available" class="btn">Available</button>
+      <button data-filter="adopted" class="btn">Adopted</button>
+      <input id="search" placeholder="Search by name or tag..." />
+    </section>
+
+    <section id="grid" class="grid"></section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">Built with ❤️ — Cat Town Collective</div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
