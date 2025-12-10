@@ -1,84 +1,201 @@
+/* color system */
 :root{
   --bg:#F7EEDD;
+  --surface:#ffffff;
+  --surface-2:rgba(255,255,255,0.6);
   --accent:#F5D7C8;
+  --accent-2:#F1C6B6;
   --muted:#C9D9E8;
   --brown:#A67C6B;
+  --brown-light:#b8927f;
   --text:#2F2F2F;
+  --shadow:rgba(0,0,0,0.08);
 }
-*{box-sizing:border-box}
+
+/* global reset */
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
 body{
   font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
   background:var(--bg);
   color:var(--text);
   margin:0;
+  line-height:1.6;
 }
+
+/* layout */
 .container{
   max-width:960px;
   margin:0 auto;
-  padding:24px;
+  padding:28px;
 }
+
+/* header */
 .site-header{
-  background:linear-gradient(90deg,var(--accent),var(--muted));
-  padding:16px 0;
-  border-radius:12px;
-  margin:12px;
+  background:linear-gradient(120deg,var(--accent),var(--muted));
+  padding:28px 0;
+  border-radius:18px;
+  margin:20px;
+  box-shadow:0 10px 26px var(--shadow);
+  animation:fadeInDown .6s ease-out;
 }
-.site-header h1{
-  font-family:Poppins,system-ui;
-  font-weight:700;
+
+.header-inner{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.site-title{
   margin:0;
-}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:18px;
-  margin-top:18px;
-}
-.card{
-  background:#fff;
-  border-radius:16px;
-  padding:12px;
-  box-shadow:0 6px 18px rgba(47,47,47,0.06);
-  transition:transform .18s;
-}
-.card:hover{
-  transform:translateY(-6px);
-}
-.card img{
-  width:100%;
-  height:160px;
-  object-fit:cover;
-  border-radius:12px;
-}
-.card h3{
-  margin:8px 0 4px;
   font-family:Poppins;
+  font-size:2rem;
+  font-weight:700;
 }
+
+/* navigation */
+.site-nav a{
+  text-decoration:none;
+  color:var(--text);
+  font-weight:500;
+  margin-left:22px;
+  padding:8px 12px;
+  border-radius:10px;
+  transition:all .25s cubic-bezier(.25,.46,.45,.94);
+}
+
+.site-nav a:hover{
+  background:rgba(255,255,255,.55);
+  transform:translateY(-2px);
+}
+
+/* buttons */
 .btn{
   background:var(--brown);
   color:#fff;
-  padding:8px 12px;
-  border-radius:10px;
+  padding:10px 16px;
+  border-radius:12px;
   border:none;
   cursor:pointer;
+  font-weight:500;
+  font-family:Inter;
+  transition:all .22s cubic-bezier(.25,.46,.45,.94);
+  box-shadow:0 4px 12px var(--shadow);
 }
+
+.btn:hover{
+  transform:translateY(-3px) scale(1.03);
+  background:var(--brown-light);
+}
+
+.btn:active{
+  transform:translateY(1px) scale(.97);
+}
+
+/* grid + cards */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+  gap:22px;
+  margin-top:24px;
+  animation:fadeIn .7s ease-out;
+}
+
+/* card aesthetic */
+.card{
+  background:var(--surface);
+  border-radius:20px;
+  padding:16px;
+  box-shadow:
+    0 12px 28px var(--shadow),
+    0 2px 6px rgba(0,0,0,0.03);
+  transition:all .3s cubic-bezier(.22,.68,.33,1.15);
+  position:relative;
+  overflow:hidden;
+}
+
+.card:hover{
+  transform:translateY(-8px) scale(1.02);
+  box-shadow:
+    0 18px 34px var(--shadow),
+    0 4px 10px rgba(0,0,0,0.04);
+}
+
+/* image styling */
+.card img{
+  width:100%;
+  height:170px;
+  object-fit:cover;
+  border-radius:16px;
+  margin-bottom:10px;
+  transition:transform .4s ease;
+}
+
+.card:hover img{
+  transform:scale(1.04);
+}
+
+.card h3{
+  margin:6px 0 4px;
+  font-family:Poppins;
+  font-size:1.15rem;
+}
+
+/* tags, description, etc */
+.card .tag{
+  background:var(--accent-2);
+  padding:4px 8px;
+  border-radius:8px;
+  margin-right:6px;
+  font-size:.8rem;
+  font-weight:500;
+}
+
+/* inputs */
 input,textarea,select{
   width:100%;
-  padding:8px;
-  border-radius:8px;
+  padding:10px 12px;
+  border-radius:12px;
   border:1px solid #ddd;
-  margin-top:6px;
+  margin-top:8px;
+  transition:border .2s;
+  background:#fff;
 }
+
+input:focus, textarea:focus{
+  border-color:var(--accent-2);
+  outline:none;
+}
+
+/* text */
 .lead{
-  font-size:1.1rem;
-  margin-bottom:6px;
+  font-size:1.15rem;
+  margin-bottom:14px;
 }
-.hint{
-  color:#666;
-  font-size:.95rem;
-}
+
 .site-footer{
-  padding:18px;
+  padding:28px;
   text-align:center;
   color:#555;
+  margin-top:40px;
+  animation:fadeInUp .6s ease-out;
+}
+
+/* animations */
+@keyframes fadeIn{
+  0%{opacity:0; transform:translateY(10px);}
+  100%{opacity:1; transform:translateY(0);}
+}
+
+@keyframes fadeInUp{
+  0%{opacity:0; transform:translateY(40px);}
+  100%{opacity:1; transform:translateY(0);}
+}
+
+@keyframes fadeInDown{
+  0%{opacity:0; transform:translateY(-40px);}
+  100%{opacity:1; transform:translateY(0);}
 }
