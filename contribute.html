@@ -22,7 +22,7 @@
 
   <main class="container">
     <section id="hero">
-      <p class="lead">add a new cat entry to the dataset.</p>
+      <p class="lead">add a new cat entry to the community dataset.</p>
     </section>
 
     <section class="card">
@@ -30,11 +30,11 @@
       <p class="hint">the generated JSON can be added to <code>cats.json</code>.</p>
 
       <form id="contribute-form">
-        <label>name</label>
-        <input type="text" id="cat-name" autocomplete="off" />
+        <label>name <span class="required">*</span></label>
+        <input type="text" id="cat-name" autocomplete="off" required />
 
-        <label>age</label>
-        <input type="text" id="cat-age" autocomplete="off" />
+        <label>age <span class="required">*</span></label>
+        <input type="text" id="cat-age" autocomplete="off" required />
 
         <label>image URL</label>
         <input type="text" id="cat-image" autocomplete="off" />
@@ -42,13 +42,13 @@
         <label>description</label>
         <textarea id="cat-desc" rows="3" autocomplete="off"></textarea>
 
-        <label>status</label>
-        <select id="cat-status">
+        <label>Status <span class="required">*</span></label>
+        <select id="cat-status" class="status-select" required>
           <option value="available">available</option>
           <option value="adopted">adopted</option>
         </select>
 
-        <button class="btn" type="submit">generate JSON entry</button>
+        <button class="btn generate-btn" type="submit">generate JSON entry</button>
       </form>
 
       <div id="output" style="margin-top:20px;"></div>
@@ -60,19 +60,20 @@
   </footer>
 
   <script>
+    // generates JSON for contribution
     document.getElementById("contribute-form").addEventListener("submit", function(e){
       e.preventDefault();
 
       const entry = {
-        name: cat-name.value.trim(),
-        age: cat-age.value.trim(),
-        desc: cat-desc.value.trim(),
-        status: cat-status.value,
-        image: cat-image.value.trim()
+        name: document.getElementById("cat-name").value.trim(),
+        age: document.getElementById("cat-age").value.trim(),
+        desc: document.getElementById("cat-desc").value.trim(),
+        status: document.getElementById("cat-status").value,
+        image: document.getElementById("cat-image").value.trim()
       };
 
-      document.getElementById("output").innerHTML =
-        `<pre><code>${JSON.stringify(entry, null, 2)}</code></pre>`;
+      const code = `<pre><code>${JSON.stringify(entry, null, 2)}</code></pre>`;
+      document.getElementById("output").innerHTML = code;
     });
   </script>
 </body>
