@@ -1,33 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>contribute - cat town collective</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cat town collective</title>
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="assets/tabby.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <header class="site-header"><div class="container"><h1>cat town collective</h1></div></header>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <h1 class="site-title">cat town collective</h1>
+      <nav class="site-nav">
+        <a href="index.html">home</a>
+        <a href="contribute.html">contribute</a>
+        <a href="#" id="filter-available">available</a>
+        <a href="#" id="filter-adopted">adopted</a>
+      </nav>
+    </div>
+  </header>
+
   <main class="container">
-    <h2>contribute a cat</h2>
+    <section id="hero">
+      <p class="lead">a community-powered dashboard of adoptable cats - add an entry or send a PR.</p>
+    </section>
 
-    <form id="cat-form">
-      <label>name <input name="name" required /></label>
-      <label>age <input name="age" required /></label>
-      <label>short description <textarea name="desc"></textarea></label>
-      <label>image URL <input name="image" placeholder="https://..." /></label>
-      <label>status
-        <select name="status">
-          <option value="available">available</option>
-          <option value="adopted">adopted</option>
-        </select>
-      </label>
-      <button type="submit" class="btn">submit</button>
-    </form>
+    <section id="controls">
+      <button data-filter="all" class="btn">all</button>
+      <button data-filter="available" class="btn">available</button>
+      <button data-filter="adopted" class="btn">adopted</button>
+      <input id="search" placeholder="search by name or tag..." />
+    </section>
 
-    <p class="hint">submissions will appear in the pending queue. to contribute via code, make a GitHub PR to <code>data/cats.json</code>.</p>
+    <section id="grid" class="grid"></section>
   </main>
 
-  <script src="js/submit.js"></script>
+  <footer class="site-footer">
+    <div class="container">built with ❤️</div>
+  </footer>
+
+  <script src="js/main.js"></script>
 </body>
 </html>
