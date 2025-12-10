@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Contribute • Cat Town Collective</title>
-
-  <!-- fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cat town collective - contribute</title>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" href="assets/logo.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
 </head>
+
 <body>
   <header class="site-header">
     <div class="container header-inner">
@@ -25,57 +21,38 @@
   </header>
 
   <main class="container">
-    <h2>submit a cat entry</h2>
-    <p class="lead">fill out the fields and generate a JSON entry. use the preview to check the card before creating a PR.</p>
+    <section id="hero">
+      <p class="lead">add a new cat to the community dataset</p>
+    </section>
 
-    <section class="card card-submit">
-      <h3>Submit a cat</h3>
-      <p class="hint">required fields are marked with <span style="color:red">*</span>. you can drop/upload an image or paste a hosted URL.</p>
+    <section class="form-section">
+      <h3>submit a cat</h3>
+      <p class="hint">fill out the details below. data goes into <code>cats.json</code>.</p>
 
-      <form id="contribute-form" autocomplete="off" novalidate>
-        <label class="required">cat name</label>
-        <input id="cat-name" type="text" placeholder="Mochi" required />
+      <form id="contribute-form">
+        <label>name <span style="color:red">*</span></label>
+        <input type="text" id="cat-name" autocomplete="off" required />
 
-        <label class="required">age</label>
-        <input id="cat-age" type="text" placeholder="e.g. 2 years" required />
+        <label>age <span style="color:red">*</span></label>
+        <input type="text" id="cat-age" autocomplete="off" required />
 
-        <label class="required">description</label>
-        <textarea id="cat-desc" rows="3" placeholder="Friendly tabby who loves naps..." required></textarea>
+        <label>image URL <span style="color:red">*</span></label>
+        <input type="text" id="cat-image" autocomplete="off" required />
 
-        <label class="required">image URL (or drop/upload below)</label>
-        <input id="cat-image" type="url" placeholder="https://example.com/cat.jpg" />
+        <label>description</label>
+        <textarea id="cat-desc" rows="3" autocomplete="off"></textarea>
 
-        <div id="drop-zone" class="drop-zone" aria-label="Image drop zone">
-          <div id="drop-zone-text">drag & drop an image here, or <label for="file-input" class="file-label">choose a file</label>.</div>
-          <input id="file-input" type="file" accept="image/*" style="display:none" />
-          <div id="drop-preview" class="drop-preview"></div>
-        </div>
-
-        <label>tags (comma-separated)</label>
-        <input id="cat-tags" type="text" placeholder="playful, tabby, calm" />
-
-        <label class="required">Status</label>
-        <select id="cat-status" required>
+        <label>status <span style="color:red">*</span></label>
+        <select id="cat-status">
           <option value="available">available</option>
           <option value="adopted">adopted</option>
         </select>
 
-        <div class="form-actions" style="display:flex;gap:12px;align-items:center;margin-top:16px;">
-          <button id="generate-btn" type="button" class="btn">generate JSON entry</button>
-          <button id="copy-btn" type="button" class="btn" style="display:none;">copy JSON</button>
-          <a id="download-link" class="btn" style="display:none; text-decoration:none;" download="cats.json">download merged JSON</a>
-        </div>
-
-        <div id="form-warning" class="form-warning" style="margin-top:12px;color:#b03;display:none;"></div>
+        <button class="btn" type="submit">generate JSON entry</button>
       </form>
 
-      <h4 style="margin-top:20px;">live preview</h4>
-      <div id="live-preview" style="max-width:460px;"></div>
-
-      <h4 style="margin-top:18px;">generated JSON</h4>
-      <textarea id="output" rows="10" style="width:100%;padding:12px;border-radius:10px;border:1px solid #ddd;font-family:monospace;"></textarea>
-
-      <p class="hint" style="margin-top:12px">after generating, copy the JSON and paste into <code>data/cats.json</code> or open a PR. embedded images use data URLs; replace with hosted URLs if you prefer before committing.</p>
+      <div id="preview" style="margin-top:20px;"></div>
+      <div id="output" style="margin-top:20px;"></div>
     </section>
   </main>
 
@@ -83,6 +60,39 @@
     <div class="container">built with ❤️</div>
   </footer>
 
-  <script src="js/contribute.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    // JSON generation and preview
+    const form = document.getElementById("contribute-form");
+    const output = document.getElementById("output");
+    const preview = document.getElementById("preview");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const entry = {
+        name: document.getElementById("cat-name").value.trim(),
+        age: document.getElementById("cat-age").value.trim(),
+        desc: document.getElementById("cat-desc").value.trim(),
+        status: document.getElementById("cat-status").value,
+        image: document.getElementById("cat-image").value.trim(),
+        tags: [] // you can add auto-generated tags if desired
+      };
+
+      // Show JSON
+      output.innerHTML = `<pre><code>${JSON.stringify(entry, null, 2)}</code></pre>`;
+
+      // Live preview card
+      preview.innerHTML = `
+        <div class="card">
+          <img src="${entry.image}" alt="${entry.name}" />
+          <h3>${entry.name}</h3>
+          <p><strong>Age:</strong> ${entry.age}</p>
+          <p>${entry.desc}</p>
+          <p class="tag">${entry.status}</p>
+        </div>
+      `;
+    });
+  </script>
 </body>
 </html>
