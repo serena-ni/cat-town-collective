@@ -8,13 +8,16 @@
   <link rel="icon" href="assets/logo.png" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
 </head>
-
 <body>
+
   <header class="site-header">
     <div class="container header-inner">
-      <h1 class="site-title">cat town collective</h1>
+      <a href="index.html" class="logo-link">
+        <img src="assets/logo.png" alt="Cat Town Collective logo" class="logo-img" />
+        <span class="site-title">cat town collective</span>
+      </a>
       <nav class="site-nav">
-        <a href="index.html" class="active">home</a>
+        <a href="index.html">home</a>
         <a href="contribute.html">contribute</a>
       </nav>
     </div>
@@ -22,17 +25,14 @@
 
   <main class="container">
     <section id="hero">
-      <p class="lead">a community-powered dashboard of adoptable cats. browse, filter, or contribute.</p>
+      <p class="lead">a community-powered dashboard of adoptable cats - add an entry or send a PR.</p>
     </section>
 
     <section id="controls">
-      <div class="button-row">
-        <button data-filter="all" class="btn">all</button>
-        <button data-filter="available" class="btn">available</button>
-        <button data-filter="adopted" class="btn">adopted</button>
-      </div>
-
-      <input id="search" placeholder="search by name or tag..." autocomplete="off" />
+      <button data-filter="all" class="btn">all</button>
+      <button data-filter="available" class="btn">available</button>
+      <button data-filter="adopted" class="btn">adopted</button>
+      <input id="search" placeholder="search by name or tag..." autocomplete="off"/>
     </section>
 
     <section id="grid" class="grid"></section>
@@ -43,5 +43,17 @@
   </footer>
 
   <script src="js/main.js"></script>
+
+  <script>
+    // header shrink on scroll
+    const header = document.querySelector('.site-header');
+    window.addEventListener('scroll', () => {
+      if(window.scrollY > 50){
+        header.classList.add('shrink');
+      } else {
+        header.classList.remove('shrink');
+      }
+    });
+  </script>
 </body>
 </html>
