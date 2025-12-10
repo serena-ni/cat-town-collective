@@ -3,44 +3,79 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cat town collective</title>
+  <title>cat town collective - contribute</title>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" href="assets/tabby.png" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
 </head>
-<body>
 
+<body>
   <header class="site-header">
     <div class="container header-inner">
       <h1 class="site-title">cat town collective</h1>
       <nav class="site-nav">
         <a href="index.html">home</a>
         <a href="contribute.html">contribute</a>
-        <a href="#" id="filter-available">available</a>
-        <a href="#" id="filter-adopted">adopted</a>
       </nav>
     </div>
   </header>
 
   <main class="container">
     <section id="hero">
-      <p class="lead">a community-powered dashboard of adoptable cats - add an entry or send a PR.</p>
+      <p class="lead">add a new cat to the community dataset</p>
     </section>
 
-    <section id="controls">
-      <button data-filter="all" class="btn">all</button>
-      <button data-filter="available" class="btn">available</button>
-      <button data-filter="adopted" class="btn">adopted</button>
-      <input id="search" placeholder="search by name or tag..." />
-    </section>
+    <section class="card">
+      <h3>submit a cat</h3>
+      <p class="hint">fill out the details below. data goes into <code>cats.json</code>.</p>
 
-    <section id="grid" class="grid"></section>
+      <form id="contribute-form">
+        <label>name</label>
+        <input type="text" id="cat-name" autocomplete="off" />
+
+        <label>age</label>
+        <input type="text" id="cat-age" autocomplete="off" />
+
+        <label>image URL</label>
+        <input type="text" id="cat-image" autocomplete="off" />
+
+        <label>description</label>
+        <textarea id="cat-desc" rows="3" autocomplete="off"></textarea>
+
+        <label>Status</label>
+        <select id="cat-status">
+          <option value="available">available</option>
+          <option value="adopted">adopted</option>
+        </select>
+
+        <button class="btn" type="submit">generate JSON entry</button>
+      </form>
+
+      <div id="output" style="margin-top:20px;"></div>
+    </section>
   </main>
 
   <footer class="site-footer">
     <div class="container">built with ❤️</div>
   </footer>
 
-  <script src="js/main.js"></script>
+  <script>
+    // generates JSON for contribution
+    document.getElementById("contribute-form").addEventListener("submit", function(e){
+      e.preventDefault();
+
+      const entry = {
+        name: document.getElementById("cat-name").value.trim(),
+        age: document.getElementById("cat-age").value.trim(),
+        desc: document.getElementById("cat-desc").value.trim(),
+        status: document.getElementById("cat-status").value,
+        image: document.getElementById("cat-image").value.trim()
+      };
+
+      const code = `<pre><code>${JSON.stringify(entry, null, 2)}</code></pre>`;
+
+      document.getElementById("output").innerHTML = code;
+    });
+  </script>
 </body>
 </html>
