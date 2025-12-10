@@ -1,58 +1,67 @@
 const grid = document.getElementById("grid");
+const filterBtns = document.querySelectorAll("button[data-filter]");
 const searchInput = document.getElementById("search");
-const filterButtons = document.querySelectorAll("#controls .btn");
 
-let cats = [];
-let filteredCats = [];
+let catsData = [];
 
-// fetch cats.json and render
-async function loadCats() {
-  try {
-    const res = await fetch("cats.json");
-    cats = await res.json();
-    filteredCats = [...cats];
-    renderCats(filteredCats);
-  } catch(err) {
-    grid.innerHTML = "<p>Failed to load cats data.</p>";
-    console.error(err);
-  }
-}
+// fetch cats.json after DOM loads
+document.addEventListener("DOMContentLoaded", () => {
+  fetch("data/cats.json")
+    .then(res => res.json())
+    .then(data => {
+      catsData = data;
+      renderCats(catsData);
+    })
+    .catch(err => {
+      console.error("failed to load cats data", err);
+      grid.innerHTML = "<p>failed to load cats data.</p>";
+    });
+});
 
-function renderCats(catsArray){
-  if(!catsArray.length){
-    grid.innerHTML = "<p>No cats found.</p>";
+function renderCats(cats) {
+  grid.innerHTML = "";
+
+  if (!cats.length) {
+    grid.innerHTML = "<p>no cats found.</p>";
     return;
   }
-  grid.innerHTML = catsArray.map(cat=>`
-    <div class="card">
+
+  cats.forEach(cat => {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
       <img src="${cat.image}" alt="${cat.name}" />
       <h3>${cat.name}</h3>
       <p><strong>Age:</strong> ${cat.age}</p>
       <p>${cat.desc}</p>
-      <p>${cat.tags ? cat.tags.map(tag=>`<span class="tag">${tag}</span>`).join(" ") : ""}</p>
       <p><strong>Status:</strong> ${cat.status}</p>
-    </div>
-  `).join("");
+    `;
+
+    grid.appendChild(card);
+  });
 }
 
-function filterCats(filter){
-  filteredCats = cats.filter(cat => filter === "all" ? true : cat.status === filter);
-  applySearch(searchInput.value);
-}
+// filter buttons
+filterBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const filter = btn.getAttribute("data-filter");
+    let filtered = catsData;
 
-function applySearch(query){
-  const lowerQuery = query.toLowerCase();
-  const result = filteredCats.filter(cat =>
-    cat.name.toLowerCase().includes(lowerQuery) ||
-    (cat.tags && cat.tags.some(tag => tag.toLowerCase().includes(lowerQuery)))
-  );
-  renderCats(result);
-}
+    if (filter === "available") filtered = catsData.filter(c => c.status === "available");
+    else if (filter === "adopted") filtered = catsData.filter(c => c.status === "adopted");
 
-filterButtons.forEach(btn=>{
-  btn.addEventListener("click",()=>filterCats(btn.dataset.filter));
+    renderCats(filtered);
+  });
 });
 
-searchInput.addEventListener("input",()=>applySearch(searchInput.value));
-
-loadCats();
+// search
+searchInput.addEventListener("input", () => {
+  const term = searchInput.value.toLowerCase();
+  renderCats(
+    catsData.filter(cat =>
+      cat.name.toLowerCase().includes(term) ||
+      (cat.tags && cat.tags.some(tag => tag.toLowerCase().includes(term)))
+    )
+  );
+});
