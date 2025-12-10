@@ -8,30 +8,31 @@
   <link rel="icon" href="assets/tabby.png" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
 </head>
-<body>
 
+<body>
   <header class="site-header">
     <div class="container header-inner">
       <h1 class="site-title">cat town collective</h1>
       <nav class="site-nav">
-        <a href="index.html">home</a>
+        <a href="index.html" class="active">home</a>
         <a href="contribute.html">contribute</a>
-        <a href="#" id="filter-available">available</a>
-        <a href="#" id="filter-adopted">adopted</a>
       </nav>
     </div>
   </header>
 
   <main class="container">
     <section id="hero">
-      <p class="lead">a community-powered dashboard of adoptable cats - add an entry or send a PR.</p>
+      <p class="lead">a community-powered dashboard of adoptable cats. browse, filter, or contribute.</p>
     </section>
 
     <section id="controls">
-      <button data-filter="all" class="btn">all</button>
-      <button data-filter="available" class="btn">available</button>
-      <button data-filter="adopted" class="btn">adopted</button>
-      <input id="search" placeholder="search by name or tag..." />
+      <div class="button-row">
+        <button data-filter="all" class="btn">all</button>
+        <button data-filter="available" class="btn">available</button>
+        <button data-filter="adopted" class="btn">adopted</button>
+      </div>
+
+      <input id="search" placeholder="search by name or tag..." autocomplete="off" />
     </section>
 
     <section id="grid" class="grid"></section>
