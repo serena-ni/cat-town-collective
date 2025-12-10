@@ -1,50 +1,58 @@
-const grid = document.getElementById('grid');
-const search = document.getElementById('search');
-let cats = [];
+const grid = document.getElementById("grid");
+const searchInput = document.getElementById("search");
+const filterButtons = document.querySelectorAll("#controls .btn");
 
-async function loadCats(){
-  try{
-    const res = await fetch('data/cats.json');
+let cats = [];
+let filteredCats = [];
+
+// fetch cats.json and render
+async function loadCats() {
+  try {
+    const res = await fetch("cats.json");
     cats = await res.json();
-    renderCats(cats);
-  }catch(e){
-    grid.innerHTML = '<p>Failed to load cats.json — serve from local server or GitHub Pages.</p>';
-    console.error(e);
+    filteredCats = [...cats];
+    renderCats(filteredCats);
+  } catch(err) {
+    grid.innerHTML = "<p>Failed to load cats data.</p>";
+    console.error(err);
   }
 }
 
-function renderCats(list){
-  grid.innerHTML = '';
-  if(!list.length) {
-    grid.innerHTML = '<p>No cats yet. Add one via Contribute!</p>';
+function renderCats(catsArray){
+  if(!catsArray.length){
+    grid.innerHTML = "<p>No cats found.</p>";
     return;
   }
-  list.forEach(c=>{
-    const card = document.createElement('div');
-    card.className='card';
-    card.innerHTML = `
-      <img src="${c.image}" alt="${c.name}" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/3/3a/Cat03.jpg'" />
-      <h3>${c.name}</h3>
-      <p>${c.age ? c.age + ' • ' : ''}${c.status || ''}</p>
-      <p class="hint">${c.desc || ''}</p>
-    `;
-    grid.appendChild(card);
-  });
+  grid.innerHTML = catsArray.map(cat=>`
+    <div class="card">
+      <img src="${cat.image}" alt="${cat.name}" />
+      <h3>${cat.name}</h3>
+      <p><strong>Age:</strong> ${cat.age}</p>
+      <p>${cat.desc}</p>
+      <p>${cat.tags ? cat.tags.map(tag=>`<span class="tag">${tag}</span>`).join(" ") : ""}</p>
+      <p><strong>Status:</strong> ${cat.status}</p>
+    </div>
+  `).join("");
 }
 
-document.querySelectorAll('.btn[data-filter], button.btn').forEach(btn=>{
-  btn.addEventListener('click', e=>{
-    const f = e.target.dataset.filter || e.target.textContent.toLowerCase();
-    if(f==='all') renderCats(cats);
-    else renderCats(cats.filter(c=> (c.status||'').toLowerCase()===f));
-  });
+function filterCats(filter){
+  filteredCats = cats.filter(cat => filter === "all" ? true : cat.status === filter);
+  applySearch(searchInput.value);
+}
+
+function applySearch(query){
+  const lowerQuery = query.toLowerCase();
+  const result = filteredCats.filter(cat =>
+    cat.name.toLowerCase().includes(lowerQuery) ||
+    (cat.tags && cat.tags.some(tag => tag.toLowerCase().includes(lowerQuery)))
+  );
+  renderCats(result);
+}
+
+filterButtons.forEach(btn=>{
+  btn.addEventListener("click",()=>filterCats(btn.dataset.filter));
 });
 
-search?.addEventListener('input', e=>{
-  const q = e.target.value.toLowerCase();
-  renderCats(cats.filter(c=> 
-    (c.name+c.desc+(c.tags||'')).toLowerCase().includes(q)
-  ));
-});
+searchInput.addEventListener("input",()=>applySearch(searchInput.value));
 
 loadCats();
