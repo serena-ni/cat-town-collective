@@ -1,6 +1,6 @@
 # cat town collective
 
-<p align="center">
+<p align="left">
   <img src="assets/home%20screen.png" width="650" alt="Home Screen Preview" />
 </p>
 
@@ -20,5 +20,3 @@ a community-powered, open-source dashboard of adoptable cats. contributors can a
   "status": "available",
   "tags": [""]
 }
-
-## 
