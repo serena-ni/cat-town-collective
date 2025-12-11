@@ -1,5 +1,9 @@
 # cat town collective
 
+<p align="center">
+  <img src="assets/home%20screen.png" width="650" alt="Home Screen Preview" />
+</p>
+
 a community-powered, open-source dashboard of adoptable cats. contributors can add entries via the web form (which writes to a pending queue) or by opening a GitHub PR to `data/cats.json`.
 
 ## how to contribute
@@ -16,3 +20,5 @@ a community-powered, open-source dashboard of adoptable cats. contributors can a
   "status": "available",
   "tags": [""]
 }
+
+## 
